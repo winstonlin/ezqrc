@@ -1,10 +1,17 @@
+#!/usr/bin/env python
+from PyQt4 import QtCore, QtGui, QtXml
+
 import os
 from xml.etree import ElementTree as ET
 
-class PyQtResourceGeneratorError(Exception):
-    pass
+class MainWindow(QtGui.QMainWindow):
 
-class PyQtResourceGenerator():
+    def __init__(self):
+        QtGui.QMainWindow.__init__(self)
+        self.setWindowTitle("PyQt Resource Generator")
+
+
+class PyQtResourceGenerator(object):
 
     def __init__(self):
         pass
@@ -19,10 +26,10 @@ class PyQtResourceGenerator():
         """
         import imghdr
         images = []
-        
+
         if image_root_path == '':
             image_root_path = qrc_root_path
-        
+
         for root, _, files in os.walk(image_root_path):
             for filename in files:
                 filepath = os.path.join(root, filename)
@@ -61,7 +68,7 @@ class PyQtResourceGenerator():
             with open(dest_path, 'w') as f:
                 f.write(xml_content)
         except Exception as e:
-            raise PyQtResourceGeneratorError("Failed to save qrc file: %s" % e)
+            raise Exception("Failed to save qrc file: %s" % e)
 
 
     def call_pyrcc4(self, source_qrc, dest_python, pyrcc4_path="C:\Python33\Lib\site-packages\PyQt4\pyrcc4.exe", args=['-py3', '-compress 9', '-o']):
@@ -76,3 +83,18 @@ class PyQtResourceGenerator():
 
         from subprocess import check_call
         check_call(command)
+
+
+if __name__ == '__main__':
+    # Allow command-line usage
+
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    main = MainWindow()
+    main.show()
+    app.exec_()
+
+    # Allow execution conversion and stuff
+    # Save configs automatically
+
+
