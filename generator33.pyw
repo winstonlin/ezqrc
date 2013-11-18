@@ -1,5 +1,5 @@
 import os
-import ConfigParser
+import configparser
 
 from PyQt4 import QtGui, QtCore
 from xml.etree import ElementTree as ET
@@ -172,10 +172,10 @@ class SimpleConfig(dict):
         """
         # Load configuration file
         if os.path.exists(filepath):
-            config = ConfigParser.RawConfigParser()
+            config = configparser.RawConfigParser()
             try:
                 config.read(filepath)
-                print("Local configuration loaded: %s" % filepath)
+                print(("Local configuration loaded: %s" % filepath))
             except Exception as e:
                 raise Exception("Failed to read configuration file: %s" % e)
 
@@ -199,10 +199,10 @@ class SimpleConfig(dict):
         Save the configuration file
         @param filepath String Path for the configuration file to be saved
         """
-        config = ConfigParser.RawConfigParser()
+        config = configparser.RawConfigParser()
         config.add_section(self.MAIN_SECTION)
 
-        for key, value in self.items():
+        for key, value in list(self.items()):
             config.set(self.MAIN_SECTION, key, str(value))
 
         try:
@@ -258,7 +258,7 @@ class PyQtResourceGenerator(object):
             img_element.text = qrc_relative_path
             img_element.attrib = {'alias': alias_path}
 
-        return ET.tostring(root)
+        return ET.tostring(root, "unicode")
 
 
     def save(self, xml_content, dest_path):
@@ -285,7 +285,7 @@ class PyQtResourceGenerator(object):
         command += ' -compress 9 -o "' + dest_python + '" "' + source_qrc + '"'
 
         import subprocess
-        print("Executing command: %s" % command)
+        print(("Executing command: %s" % command))
         process = subprocess.Popen(command, stderr=subprocess.PIPE)
         out, err = process.communicate()
         if process.returncode != 0:
