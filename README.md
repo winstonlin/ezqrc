@@ -14,6 +14,7 @@ Installation
 generator.pyw vs generator33.pyw
 -----
 **generator.pyw** is meant to be used with Python 2.7.x
+
 **generator33.pyw** is meant to be used with Python 3.3.x
 
 Usage Instructions
